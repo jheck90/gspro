@@ -1,4 +1,4 @@
-package main
+package gspro
 
 import (
 	"encoding/json"
@@ -8,11 +8,16 @@ import (
 )
 
 func main() {
+    if err := Run(); err != nil {
+        fmt.Println("Error:", err)
+    }
+}
+
+func Run() error {
     // Connect to GSPro on 127.0.0.1:0921
     conn, err := net.Dial("tcp", "127.0.0.1:0921")
     if err != nil {
-        fmt.Println("Error connecting:", err)
-        return
+        return fmt.Errorf("error connecting: %v", err)
     }
     defer conn.Close()
 
@@ -20,16 +25,14 @@ func main() {
     buffer := make([]byte, 1024)
     bytesRead, err := conn.Read(buffer)
     if err != nil {
-        fmt.Println("Error reading data:", err)
-        return
+        return fmt.Errorf("error reading data: %v", err)
     }
 
     // Parse JSON data using Decoder
     var data map[string]interface{}
     decoder := json.NewDecoder(bytes.NewReader(buffer[:bytesRead]))
     if err := decoder.Decode(&data); err != nil {
-        fmt.Println("Error decoding JSON:", err)
-        return
+        return fmt.Errorf("error decoding JSON: %v", err)
     }
 
     // Check the GSPro response code
@@ -44,4 +47,12 @@ func main() {
         fmt.Println("Mission failure. Reassess and adapt.")
         // Log the failure details
     }
+
+    // Adapt and expand for your specific needs
+
+    return nil
+}
+
+func RunWithError() error {
+    return fmt.Errorf("simulated connection failure")
 }

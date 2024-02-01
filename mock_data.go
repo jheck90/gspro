@@ -13,7 +13,7 @@ type SimulatedGSProServer struct {
 
 // NewSimulatedGSProServer creates a new instance of SimulatedGSProServer.
 func NewSimulatedGSProServer() (*SimulatedGSProServer, error) {
-	listener, err := net.Listen("tcp", "127.0.0.1:9021")
+	listener, err := net.Listen("tcp", "127.0.0.1:0921")
 	if err != nil {
 		return nil, err
 	}
